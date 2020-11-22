@@ -4,3 +4,7 @@ export interface User {
     lastName: string;
     dob: string;
 }
+
+export interface SelectableUser extends User {
+    isSelected: boolean;
+}

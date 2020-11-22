@@ -29,9 +29,9 @@ export function UserSelectionList({ users }: UserSelectionListProps) {
     });
 
     return (
-        <>
+        <div>
             <h2>Employees</h2>
-            <div className="user-selection-list">{listItems}</div>
-        </>
+            <div className="flex-row user-selection-list">{listItems}</div>
+        </div>
     );
 }
