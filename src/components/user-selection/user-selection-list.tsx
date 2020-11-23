@@ -1,13 +1,11 @@
-import { User } from '../../models/user';
+import { SelectableUser } from '../../models/user';
 import { letters } from '../../models/letters';
 import { UserSelectionBlock } from './user-selection-block';
 import React from 'react';
 
 export interface UserSelectionListProps {
-    users: Array<User>;
+    users: Array<SelectableUser>;
 }
-
-function toggleSelection() {}
 
 export function UserSelectionList({ users }: UserSelectionListProps) {
     const groupedUsers = letters.map((letter) => {
@@ -19,12 +17,7 @@ export function UserSelectionList({ users }: UserSelectionListProps) {
 
     const listItems = groupedUsers.map(({ letter, users }) => {
         return (
-            <UserSelectionBlock
-                key={letter}
-                letter={letter}
-                users={users}
-                toggleSelection={toggleSelection}
-            />
+            <UserSelectionBlock key={letter} letter={letter} users={users} />
         );
     });
 

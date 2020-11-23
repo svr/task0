@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useFetch } from './hooks/useFetch';
-import { User } from './models/user';
-import { UserSelectionList } from './components/user-selection/user-selection-list';
-import { UserBirthdayList } from './components/user-birthday/user-birthday-list';
+import { SelectableUser } from './models/user';
+import { UsersContext } from './contexts/users';
+import { UserSelectionListContainer } from './components/user-selection/user-selection-list-container';
+import { UserBirthdayListContainer } from './components/user-birthday/user-birthday-list-container';
 
 function App() {
-    const [{ data, isLoading, error }, doFetch] = useFetch<Array<User>>(
-        'https://yalantis-react-school-api.yalantis.com/api/task0/users'
-    );
+    const [{ data, isLoading, error }, doFetch] = useFetch<
+        Array<SelectableUser>
+    >('https://yalantis-react-school-api.yalantis.com/api/task0/users');
+    const { setUsers } = useContext(UsersContext);
 
     useEffect(() => {
         doFetch();
     }, [doFetch]);
+
+    useEffect(() => {
+        if (data) {
+            setUsers(data);
+        }
+    }, [setUsers, data]);
 
     return (
         <main>
@@ -20,8 +28,8 @@ function App() {
 
             {!error && data && (
                 <div className="flex-row app-container">
-                    <UserSelectionList users={data} />
-                    <UserBirthdayList users={data} />
+                    <UserSelectionListContainer />
+                    <UserBirthdayListContainer />
                 </div>
             )}
         </main>

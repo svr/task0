@@ -1,24 +1,21 @@
 import React from 'react';
-import { User } from '../../models/user';
+import { SelectableUser } from '../../models/user';
+import { UsersContext } from '../../contexts/users';
 
 export interface UserSelectionItemProps {
-    user: User;
-    isSelected: boolean;
-    toggleSelection: (user: User) => void;
+    user: SelectableUser;
 }
 
-export function UserSelectionItem({
-    user,
-    isSelected,
-    toggleSelection,
-}: UserSelectionItemProps) {
+export function UserSelectionItem({ user }: UserSelectionItemProps) {
+    const { toggleSelection } = React.useContext(UsersContext);
+
     return (
         <li>
             <label>
                 {user.lastName}&nbsp;{user.firstName}
                 <input
                     type="checkbox"
-                    checked={isSelected}
+                    checked={user.isSelected || false}
                     onChange={() => toggleSelection(user)}
                 />
             </label>

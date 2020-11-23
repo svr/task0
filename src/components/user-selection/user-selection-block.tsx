@@ -1,27 +1,15 @@
 import { UserSelectionItem } from './user-selection-item';
-import { User } from '../../models/user';
+import { SelectableUser } from '../../models/user';
 import * as React from 'react';
 
 export interface UserSelectionBlockProps {
     letter: string;
-    users: Array<User>;
-    toggleSelection: (user: User) => void;
+    users: Array<SelectableUser>;
 }
 
-export function UserSelectionBlock({
-    letter,
-    users,
-    toggleSelection,
-}: UserSelectionBlockProps) {
+export function UserSelectionBlock({ letter, users }: UserSelectionBlockProps) {
     const listItems = users.map((user) => {
-        return (
-            <UserSelectionItem
-                key={user.id}
-                user={user}
-                isSelected={false}
-                toggleSelection={toggleSelection}
-            />
-        );
+        return <UserSelectionItem key={user.id} user={user} />;
     });
 
     return (
