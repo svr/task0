@@ -12,15 +12,7 @@ interface UserContextType {
 }
 
 export const UsersContext = createContext<UserContextType>({
-    users: [
-        {
-            firstName: '1',
-            lastName: '2',
-            id: '1212',
-            isSelected: true,
-            dob: '121',
-        },
-    ],
+    users: [],
     toggleSelection: () => {},
     setUsers: () => {},
 });

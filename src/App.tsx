@@ -1,38 +1,42 @@
-import React, { useContext, useEffect } from 'react';
-import { useFetch } from './hooks/useFetch';
-import { SelectableUser } from './models/user';
-import { UsersContext } from './contexts/users';
-import { UserSelectionListContainer } from './components/user-selection/user-selection-list-container';
-import { UserBirthdayListContainer } from './components/user-birthday/user-birthday-list-container';
+import React from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    NavLink,
+} from 'react-router-dom';
+import { UsersProvider } from './contexts/users';
+import { EmployeesPage } from './pages/employees';
+import { HomePage } from './pages/home';
 
 function App() {
-    const [{ data, isLoading, error }, doFetch] = useFetch<
-        Array<SelectableUser>
-    >('https://yalantis-react-school-api.yalantis.com/api/task0/users');
-    const { setUsers } = useContext(UsersContext);
-
-    useEffect(() => {
-        doFetch();
-    }, [doFetch]);
-
-    useEffect(() => {
-        if (data) {
-            setUsers(data);
-        }
-    }, [setUsers, data]);
-
     return (
-        <main>
-            {isLoading && <p>Loading...</p>}
-            {error && <p>{error}</p>}
-
-            {!error && data && (
-                <div className="flex-row app-container">
-                    <UserSelectionListContainer />
-                    <UserBirthdayListContainer />
-                </div>
-            )}
-        </main>
+        <Router>
+            <main>
+                <nav>
+                    <ul className="horizontal-menu">
+                        <li>
+                            <NavLink to="/" exact>
+                                Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/employees">Employees</NavLink>
+                        </li>
+                    </ul>
+                </nav>
+                <Switch>
+                    <Route path="/employees">
+                        <UsersProvider>
+                            <EmployeesPage />
+                        </UsersProvider>
+                    </Route>
+                    <Route path="/" exact>
+                        <HomePage />
+                    </Route>
+                </Switch>
+            </main>
+        </Router>
     );
 }
 

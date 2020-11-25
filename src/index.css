@@ -49,6 +49,33 @@ main {
   padding: 10px 20px;
 }
 
+nav {
+  margin: 10px 0;
+}
+
+.horizontal-menu {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.horizontal-menu a {
+  margin: 0 5px;
+  padding: 10px;
+  border: 1px solid lightsteelblue;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.horizontal-menu a:hover {
+  cursor: pointer;
+  background-color: aliceblue;
+}
+
+.horizontal-menu a.active {
+  background-color: lightblue;
+  pointer-events: none;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -79,6 +106,11 @@ main {
     align-items: center;
 }
 
+.user-selection-list > section label:hover {
+  cursor: pointer;
+  background-color: aliceblue;
+}
+
 .user-birthday-list {
   padding-left: 20px;
   border-left: 1px solid gray;
@@ -86,4 +118,8 @@ main {
 
 .user-birthday-list ul {
   margin-bottom: 20px;
+}
+
+.home-page {
+  margin-top: 30px;
 }
