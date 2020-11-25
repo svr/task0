@@ -11,7 +11,7 @@ import { HomePage } from './pages/home';
 
 function App() {
     return (
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
             <main>
                 <nav>
                     <ul className="horizontal-menu">
