@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
-import { SelectableUser } from '../models/user';
+import { User } from '../models/user';
 import { UsersContext } from '../contexts/users';
 import { UserSelectionListContainer } from '../components/user-selection/user-selection-list-container';
 import { UserBirthdayListContainer } from '../components/user-birthday/user-birthday-list-container';
 
 export function EmployeesPage() {
-    const [{ data, isLoading, error }, doFetch] = useFetch<
-        Array<SelectableUser>
-    >('https://yalantis-react-school-api.yalantis.com/api/task0/users');
+    const [{ data, isLoading, error }, doFetch] = useFetch<Array<User>>(
+        'https://yalantis-react-school-api.yalantis.com/api/task0/users'
+    );
     const { setUsers } = useContext(UsersContext);
 
     useEffect(() => {

@@ -1,5 +1,6 @@
-import React, { createContext, useCallback } from 'react';
-import { SelectableUser } from '../models/user';
+import React, { createContext, useCallback, useState } from 'react';
+import { SelectableUser, User } from '../models/user';
+import { useStorage } from '../hooks/useStorage';
 
 interface Props {
     children: JSX.Element[] | JSX.Element;
@@ -8,7 +9,7 @@ interface Props {
 interface UserContextType {
     users: Array<SelectableUser>;
     toggleSelection: (user: SelectableUser) => void;
-    setUsers: (users: Array<SelectableUser>) => void;
+    setUsers: (users: Array<User>) => void;
 }
 
 export const UsersContext = createContext<UserContextType>({
@@ -18,28 +19,39 @@ export const UsersContext = createContext<UserContextType>({
 });
 
 export function UsersProvider(props: Props) {
-    const [users, setUsers] = React.useState<Array<SelectableUser>>([]);
-
-    const toggleSelection = useCallback(
-        ({ id }: SelectableUser) => {
-            const updatedUsers = users.map((user) => {
-                if (user.id === id) {
-                    return {
-                        ...user,
-                        isSelected: !user.isSelected,
-                    };
-                }
-                return user;
-            });
-            setUsers(updatedUsers);
-        },
-        [users]
+    const [users, setUsers] = useState<Array<User>>([]);
+    const [selectedIds, setSelectedIds] = useStorage<Array<string>>(
+        '__selected_ids',
+        []
     );
 
-    const value = React.useMemo(() => ({ users, setUsers, toggleSelection }), [
-        users,
-        toggleSelection,
-    ]);
+    const toggleSelection = useCallback(
+        (user: SelectableUser) => {
+            let ids: Array<string>;
+            if (user.isSelected) {
+                ids = selectedIds.filter((id) => id !== user.id);
+            } else {
+                ids = [...selectedIds, user.id];
+            }
+            setSelectedIds(ids);
+        },
+        [selectedIds, setSelectedIds]
+    );
+
+    const value = React.useMemo(() => {
+        const selectableUser = users.map((user) => {
+            return {
+                ...user,
+                isSelected: selectedIds.includes(user.id),
+            };
+        });
+
+        return {
+            users: selectableUser,
+            setUsers,
+            toggleSelection,
+        };
+    }, [users, selectedIds, toggleSelection]);
     return (
         <UsersContext.Provider value={value}>
             {props.children}
